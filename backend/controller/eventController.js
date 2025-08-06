@@ -1,6 +1,6 @@
 // server/controllers/eventController.js
 import Event from "../model/eventModel.js";
-import { eventCreated, eventsFetchedFailure, eventsFetchedSuccess } from "../utils/message.js";
+import { eventCreated, eventsFetchedFailure, eventsFetchedSuccess, userUnauthorized, EventUpdated, EventNotFound } from "../utils/message.js";
 
 const createEvent = async (req, res) => {
   try {
@@ -44,4 +44,42 @@ const getAllEvents = async (req, res) => {
     });
   }
 };
-export {createEvent, getAllEvents};
+
+const updateEvent = async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    const event = await Event.findById(id);
+
+   
+    if (!event) {
+        return res.status(404).json({
+            message : EventNotFound,
+            success : false 
+        })
+    }
+
+    if (event.organizerId.toString() !== req.user.id) {
+        return res.status(403).json({ 
+            message: userUnauthorized,
+            success : false
+        });
+    }
+
+    console.log(event);
+
+    const updatedEvent = await Event.findByIdAndUpdate(id, req.body, { new: true });
+    res.status(200).json({
+        success : true,     
+        message : EventUpdated, 
+        updatedEvent
+    })
+  } catch (err) {
+    res.status(500).json({ 
+        message: 'Failed to update event', 
+        error: err.message
+    });
+  }
+};
+
+export {createEvent, getAllEvents, updateEvent};
