@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const naviagate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -29,7 +31,7 @@ const Login = () => {
       setErrors(validationErrors);
       return;
     }
-
+  
     // Handle login API call here
     console.log("Login successful", formData);
     setSuccess("Logged in successfully!");

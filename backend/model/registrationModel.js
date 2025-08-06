@@ -1,5 +1,5 @@
-// server/models/Registration.js
-const mongoose = require('mongoose');
+
+import mongoose from "mongoose";
 
 const registrationSchema = new mongoose.Schema({
   userId: {
