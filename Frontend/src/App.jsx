@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 
-import Header from './components/Header';
 import Navbar from './components/Navbar';
 
 import Login from './pages/login';
@@ -12,8 +11,7 @@ import Dashboard from "./pages/dash";
 function App() {
   return (
     <>
-     
-      <Header />
+
       <Navbar />
 
       
