@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-process.loadEnvFile('../.env');
+process.loadEnvFile('./.env');
 
 const connectDb = async () => {
   try {
