@@ -1,6 +1,6 @@
 // server/controllers/eventController.js
 import Event from "../model/eventModel.js";
-import { eventCreated } from "../utils/message.js";
+import { eventCreated, eventsFetchedFailure, eventsFetchedSuccess } from "../utils/message.js";
 
 const createEvent = async (req, res) => {
   try {
@@ -29,4 +29,19 @@ const createEvent = async (req, res) => {
   }
 };
 
-export {createEvent};
+const getAllEvents = async (req, res) => {
+  try {
+    const events = await Event.find().populate('organizerId', 'name email');
+    res.status(200).json({
+        success : true, 
+        message : eventsFetchedSuccess,
+        events
+    })
+  } catch (err) {
+    res.status(500).json({ 
+        message: eventsFetchedFailure, 
+        error: err.message 
+    });
+  }
+};
+export {createEvent, getAllEvents};
