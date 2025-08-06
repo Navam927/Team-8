@@ -1,6 +1,10 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 
 const Signup = () => {
+  const navigate=useNavigate();
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -15,6 +19,7 @@ const Signup = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     setErrors({});
     setSuccess("");
+    navigate("/login");
   };
 
   const validate = () => {
@@ -27,18 +32,31 @@ const Signup = () => {
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const validationErrors = validate();
-    if (Object.keys(validationErrors).length) {
-      setErrors(validationErrors);
-      return;
-    }
+ 
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  const validationErrors = validate();
+  if (Object.keys(validationErrors).length) {
+    setErrors(validationErrors);
+    return;
+  }
 
-    console.log("Signup successful!", formData);
+  try {
+    const response = await axios.post("http://localhost:4000/auth/register", {
+      name: formData.fullName,
+      email: formData.email,
+      password: formData.password,
+    });
     setSuccess("Signup successful!");
     setFormData({ fullName: "", email: "", password: "", confirmPassword: "" });
-  };
+    setErrors({});
+    navigate
+  } catch (error) {
+    setErrors({ api: error.response?.data?.message || "Signup failed" });
+    setSuccess("");
+  }
+};
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-black px-4">
