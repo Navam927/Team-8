@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { StoreProvider } from "../Context/StoreContext";
 
 const Login = () => {
   const [formData, setFormData] = useState({
