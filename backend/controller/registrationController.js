@@ -16,8 +16,8 @@ const registerForEvent = async (req, res) => {
             message: 'Already registered for this event' 
         });
     }
-    console.log("eventId", eventId);
-    console.log("userId", req.user.id);
+    // console.log("eventId", eventId);
+    // console.log("userId", req.user.id);
 
 
     const registration = new Registration({

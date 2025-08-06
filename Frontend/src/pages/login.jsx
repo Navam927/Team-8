@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { StoreProvider } from "../Context/StoreContext";
 
 const Login = () => {
-  const naviagate = useNavigate();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -24,15 +24,29 @@ const Login = () => {
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
     }
-  
-    // Handle login API call here
+try {
+  const response = await axios.post("http://localhost:4000/auth/login", {
+    email: formData.email,
+    password: formData.password,
+  });
+
+  setFormData({ email: "", password: "" });
+  setErrors({});
+  setSuccess("Logged in successfully!");
+  navigate("/dashboard");
+} catch (error) {
+  setErrors({ api: error.response?.data?.message || "Login failed" });
+  setSuccess("");
+}
+   
+    
     console.log("Login successful", formData);
     setSuccess("Logged in successfully!");
     setFormData({ email: "", password: "" });
