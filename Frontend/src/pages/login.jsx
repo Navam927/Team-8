@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { StoreProvider } from "../Context/StoreContext";
 
 const Login = () => {
   const navigate = useNavigate();
