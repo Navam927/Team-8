@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { createEvent, getAllEvents, updateEvent } from '../controller/eventController.js';
+import { createEvent, deleteEvent, getAllEvents, updateEvent } from '../controller/eventController.js';
 import verifyToken from '../middleware/auth.js';
 
 const eventRouter = express.Router();
@@ -11,6 +11,6 @@ eventRouter.get('/get', getAllEvents);
 
 eventRouter.post('/update/:id', verifyToken, updateEvent)
 
-// router.post('/:id/register', auth, registerForEvent);
+eventRouter.post('/delete/:id', verifyToken, deleteEvent);
 
 export default eventRouter;

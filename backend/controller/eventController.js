@@ -1,6 +1,6 @@
 // server/controllers/eventController.js
 import Event from "../model/eventModel.js";
-import { eventCreated, eventsFetchedFailure, eventsFetchedSuccess, userUnauthorized, EventUpdated, EventNotFound } from "../utils/message.js";
+import { eventCreated, eventsFetchedFailure, eventsFetchedSuccess, userUnauthorized, EventUpdated, EventNotFound, EventDeleteSuccess, EventDeleteFailure } from "../utils/message.js";
 
 const createEvent = async (req, res) => {
   try {
@@ -82,4 +82,37 @@ const updateEvent = async (req, res) => {
   }
 };
 
-export {createEvent, getAllEvents, updateEvent};
+const deleteEvent = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const event = await Event.findById(id);
+
+    if (!event) {
+        return res.status(404).json({
+            message : EventNotFound,
+            success : false 
+        })
+    }
+
+    if (event.organizerId.toString() !== req.user.id) {
+        return res.status(403).json({ 
+            message: userUnauthorized,
+            success : false
+        });
+    }
+
+
+    await Event.findByIdAndDelete(id);
+    res.status(200).json({ 
+        message: EventDeleteSuccess, 
+        success : true   
+    });
+  } catch (err) {
+    res.status(500).json({ 
+        message: EventDeleteFailure,
+        error: err.message 
+    });
+  }
+};
+
+export {createEvent, getAllEvents, updateEvent, deleteEvent};

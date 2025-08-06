@@ -10,8 +10,10 @@ const eventsFetchedFailure="Error occured in fetching events"
 const userUnauthorized="User not authorized"
 const EventUpdated="Event updated successfully"
 const EventNotFound="Event not found"
+const EventDeleteSuccess="Event deleted successfully"
+const EventDeleteFailure="Failed to delete event"
 
 
 export { userAlreadyExists, userNotFound, userRegistered, invalidCredentials, loginFailed, notAuthorized, eventCreated, eventsFetchedSuccess, eventsFetchedFailure,
-    userUnauthorized, EventUpdated, EventNotFound
+    userUnauthorized, EventUpdated, EventNotFound, EventDeleteSuccess, EventDeleteFailure
  };
